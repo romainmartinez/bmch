@@ -4,9 +4,6 @@
 """Tests for `bmch` package."""
 
 import pytest
-
-from click.testing import CliRunner
-
 from bmch import bmch
 
 
