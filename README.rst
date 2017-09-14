@@ -30,7 +30,7 @@ bmch contains usefull tools to conduct a biomechanical analysis
 Features
 --------
 
-* TODO
+- remove click
 
 Credits
 ---------
