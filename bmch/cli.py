@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 
-"""Console script for bmch."""
+"""Command line interface for bmch."""
 
-import click
+import cursesmenu as cm
 
-
-@click.command()
-def main(args=None):
-    """Console script for bmch."""
-    click.echo("Replace this message by putting your code into "
-               "bmch.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
-
-
-if __name__ == "__main__":
-    main()
+# categories
+main_cat = ('preprocessing', 'processing', 'statistics', 'plot')
+sub_cat = {
+    'preprocessing': ('')
+}
+# main menu
+menu = cm.CursesMenu(title='main title', subtitle='subtitle')
