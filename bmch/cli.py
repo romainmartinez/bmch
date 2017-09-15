@@ -2,26 +2,26 @@
 
 """Command line interface for bmch."""
 
-import cursesmenu as cm
+import menu
 
 
-class Menu:
-    """the menu class."""
+# def coucou():
+#     print('coucou')
+#
+# header = '-' * 21
+#
+# main = menu.Menu(title=header, message='root')
+# main.set_options([("new option name", coucou),
+#                   ('exit', menu.Menu.CLOSE)])
+#
+# main.open()
+#
+#
+# main.close()
 
-    def __init__(self):
-        self.main_cat = ['preprocessing', 'processing', 'statistics', 'plot']
-        self.sub_cat = {
-            'preprocessing': [
-                'create new project', 'import project', 'import files', 'model construction', 'kinematic reconstruction'
-            ]
-        }
-
-    def mainmenu(self):
-        """Getting a selection out of a list of strings."""
-        selection = cm.SelectionMenu.get_selection(self.main_cat)
-        return selection
-
-
-if __name__ == '__main__':
-    menu = Menu()
-    selection = menu.mainmenu()
+main = menu.Menu(title="Main Menu")
+sub = menu.Menu(title="Submenu")
+main.set_options([("Open submenu", sub.open),
+                  ("Close main menu", main.close)])
+sub.set_options([("Return to main menu", sub.close)])
+main.open()

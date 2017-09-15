@@ -4,7 +4,6 @@
 """Tests for `bmch` package."""
 
 import pytest
-from bmch import bmch
 
 
 @pytest.fixture

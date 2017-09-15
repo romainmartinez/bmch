@@ -1,1 +1,1 @@
-curses-menu==0.5.0
+menu==3.1.0
