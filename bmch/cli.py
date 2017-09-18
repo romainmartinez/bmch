@@ -2,12 +2,47 @@
 
 """Command line interface for bmch."""
 
-import cursesmenu as cm
+import menu
 
-# categories
-main_cat = ('preprocessing', 'processing', 'statistics', 'plot')
-sub_cat = {
-    'preprocessing': ('')
-}
-# main menu
-menu = cm.CursesMenu(title='main title', subtitle='subtitle')
+import bmch
+
+
+def show_menu():
+    """Display command line interface (without arguments and outputs)."""
+
+    # create main menu
+    main = menu.Menu(title="Main Menu")
+
+    # create submenu
+
+    # 1) preprocessing submenu
+    preproc = menu.Menu(title="preprocessing")
+    preproc.set_options([('create project', bmch.preprocessing.createproject),
+                         ('import project', bmch.preprocessing.importproject),
+                         ('import files', bmch.preprocessing.importfiles),
+                         ('return', preproc.close)])
+
+    # 2) processing submenu
+    proc = menu.Menu(title='processing')
+    proc.set_options([('return', proc.close)])
+
+    # 3) statistics submenu
+    stats = menu.Menu(title='statistics')
+    stats.set_options([('return', stats.close)])
+
+    # 4) plot submenu
+    plt = menu.Menu(title='plot')
+    plt.set_options([('return', plt.close)])
+
+    # add submenus
+    main.set_options([('preprocessing', preproc.open),
+                      ('processing', proc.open),
+                      ('statistics', stats.open),
+                      ('plot', plt.open),
+                      ('exit', main.close)])
+
+    main.open()
+
+
+if __name__ == '__main__':
+    show_menu()
