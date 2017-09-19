@@ -33,15 +33,15 @@ def importproject(project_path=None):
     metadata_path = os.path.join(project_path, 'metadata', '')
 
     # import conf files (csv)
-    metadata = {}
     for ifile in files:
-        metadata[ifile] = pd.read_csv(metadata_path + ifile + '.csv')
+        df = pd.read_csv(metadata_path + ifile + '.csv')
     print('\tconfiguration files loaded')
+
 
     # export single conf file
 
     # export cache (project folder only)
-    pass
+    return metadata
 
 
 def importfiles():
