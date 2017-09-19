@@ -16,7 +16,7 @@ def append_metadata(project_path, metadata, case):
     file = tables.open_file(filename=filename, mode='a')
 
     descriptor = column_descriptor(case)
-    table = file.create_table(file.root.metadata, name=case, description=descriptor, title=case + 'metadata')
+    table = file.create_table(file.root.metadata, name=case, description=descriptor, title='{}metadata'.format(case))
 
     row = table.row
     for i in range(metadata.shape[0]):

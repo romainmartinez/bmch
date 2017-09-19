@@ -27,6 +27,6 @@ def conf_header(case, path=None):
         'participants': ['pseudo', 'process', 'laterality', 'group', 'mass', 'height', 'date'],
         'trials': ['folder', 'emg', 'markers', 'force']
     }
-    with open(path + case + '.csv', 'w') as csvfile:
+    with open('{}{}.csv'.format(path, case), 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers[case])
         writer.writeheader()
