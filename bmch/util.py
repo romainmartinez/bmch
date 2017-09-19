@@ -30,3 +30,22 @@ def conf_header(case, path=None):
     with open('{}{}.csv'.format(path, case), 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers[case])
         writer.writeheader()
+
+
+def cache(usage='import', path=None):
+    import os
+    # TODO: delete this ?
+    filename = 'cache.txt'
+    if usage is 'export' and path:
+        path = os.path.join(path, '')  # add trailing slash if not already here
+        file = open(filename, 'w')
+        file.write('{}'.format(path))
+        file.close()
+    elif usage is 'import':
+        print('import')
+        file = open(filename, 'r')
+        string = file.read()
+        file.close()
+        return string
+    else:
+        raise ValueError('choose a valid usage')
