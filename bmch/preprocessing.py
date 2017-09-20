@@ -25,29 +25,24 @@ def createproject(project_path=None):
 
 def importproject(project_path=None):
     # TODO: doc
-    import pandas as pd
+
     # validate path
     project_path = bmch.util.validate_path(project_path)
 
-    # create hdf5 file and put metadata
+    # create conf file
+    metadata_path = os.path.join(project_path, 'metadata', '')
     files = ['emg', 'markers', 'force', 'participants', 'trials']
-    bmch.fileio.create_file(project_path)
-
-    for ifile in files:
-        # import csv files
-        metadata = pd.read_csv('{}/metadata/{}.csv'.format(project_path, ifile))
-        # append in hdf5 file
-        bmch.fileio.append_metadata(project_path, metadata, ifile)
+    bmch.fileio.create_conf_file(metadata_path, files)
     print('\tconfiguration files loaded')
 
     # export cache (project folder only)
     # TODO: see if delete if really necessary
 
 
-def importfiles(project_path=None):
+def importfiles():
     # TODO: doc
     # validate path
-    project_path = bmch.util.validate_path(project_path)
+    pass
 
 
 # TODO: delete this
