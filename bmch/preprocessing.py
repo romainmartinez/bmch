@@ -27,7 +27,7 @@ def importproject(project_path=None):
     # TODO: doc
     import pandas as pd
     # validate path
-    project_path = bmch.util.validate_path(project_path, isempty=False)
+    project_path = bmch.util.validate_path(project_path)
 
     # create hdf5 file and put metadata
     files = ['emg', 'markers', 'force', 'participants', 'trials']
@@ -41,10 +41,13 @@ def importproject(project_path=None):
     print('\tconfiguration files loaded')
 
     # export cache (project folder only)
+    # TODO: see if delete if really necessary
 
 
-def importfiles():
-    pass
+def importfiles(project_path=None):
+    # TODO: doc
+    # validate path
+    project_path = bmch.util.validate_path(project_path)
 
 
 # TODO: delete this
