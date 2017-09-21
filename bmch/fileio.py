@@ -25,12 +25,19 @@ def create_conf_file(metadata_path):
     # TODO: doc
     files = ['emg', 'markers', 'force', 'participants', 'trials']
     # read each csv files into dict
-    d = {name: pd.read_csv('{}{}.csv'.format(metadata_path, name)) for name in files}
+    csv_dict = {ifile: pd.read_csv('{}{}.csv'.format(metadata_path, ifile)) for ifile in files}
 
     # merge dicts into json files
-    z = {k: json.loads(d[k].to_json()) for k in d}
+    json_file = {key: json.loads(csv_dict[key].to_json()) for key in csv_dict}
 
     # export json file
-    outpath = '{}config.json'.format(metadata_path)
-    with open(outpath, 'w') as out:
-        out.write(json.dumps(z, indent=4))
+    json_path = '{}config.json'.format(metadata_path)
+    with open(json_path, 'w') as json_data:
+        json_data.write(json.dumps(json_file, indent=4))
+
+
+def load_conf_file(metadata_path):
+    # TODO: doc
+    json_path = '{}config.json'.format(metadata_path)
+    with open(json_path, 'r') as json_data:
+        return json.load(json_data)
