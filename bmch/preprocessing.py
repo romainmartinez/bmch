@@ -5,7 +5,7 @@ import bmch
 import os
 
 
-def createproject(project_path=None):
+def create_project(project_path=None):
     # TODO: doc
     # validate path
     project_path = bmch.util.validate_path(project_path, isempty=True)
@@ -19,13 +19,12 @@ def createproject(project_path=None):
     # create configuration files
     metadata_path = os.path.join(project_path, 'metadata', '')
     files = ['emg', 'markers', 'force', 'participants', 'trials']
-    [bmch.util.conf_header(ifile, path=metadata_path) for ifile in files]
+    [bmch.fileio.write_conf_header(ifile, path=metadata_path) for ifile in files]
     print('\tconfiguration files created')
 
 
-def importproject(project_path=None):
+def import_project(project_path=None):
     # TODO: doc
-
     # validate path
     project_path = bmch.util.validate_path(project_path)
 
@@ -35,16 +34,15 @@ def importproject(project_path=None):
     bmch.fileio.create_conf_file(metadata_path, files)
     print('\tconfiguration files loaded')
 
-    # export cache (project folder only)
-    # TODO: see if delete if really necessary
 
-
-def importfiles():
+def import_files(project_path=None):
     # TODO: doc
     # validate path
-    pass
+    project_path = bmch.util.validate_path(project_path)
+
+    # load conf file
 
 
 # TODO: delete this
 if __name__ == '__main__':
-    importproject(project_path='/home/romain/Downloads/irsst')
+    import_project(project_path='/home/romain/Downloads/irsst')

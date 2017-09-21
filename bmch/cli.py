@@ -17,9 +17,9 @@ def show_menu():
 
     # 1) preprocessing submenu
     preproc = menu.Menu(title="preprocessing")
-    preproc.set_options([('create project', bmch.preprocessing.createproject),
-                         ('import project', bmch.preprocessing.importproject),
-                         ('import files', bmch.preprocessing.importfiles),
+    preproc.set_options([('create project', bmch.preprocessing.create_project),
+                         ('import project', bmch.preprocessing.import_project),
+                         ('import files', bmch.preprocessing.import_files),
                          ('return', preproc.close)])
 
     # 2) processing submenu
