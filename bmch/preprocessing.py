@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
 """Preprocessing submodule."""
 # TODO: complete doc
-import bmch
-import os
+import bmch  # create_project, import_project, import_file
 
 
 def create_project(project_path=None):
     # TODO: doc
     # validate path
-    project_path = bmch.util.validate_path(project_path, isempty=True)
+    project_path, metadata_path = bmch.util.validate_path(project_path, isempty=True, metadata=True)
     print('\tdirectory located')
 
     # create root folders
-    folders = ['inputs', 'outputs', 'metadata']
-    [os.mkdir(project_path + ifolder) for ifolder in folders]
+    bmch.util.create_root_folders(project_path)
     print('\troot folders created')
 
     # create configuration files
-    metadata_path = os.path.join(project_path, 'metadata', '')
     files = ['emg', 'markers', 'force', 'participants', 'trials']
     [bmch.fileio.write_conf_header(ifile, path=metadata_path) for ifile in files]
     print('\tconfiguration files created')
@@ -26,10 +23,9 @@ def create_project(project_path=None):
 def import_project(project_path=None):
     # TODO: doc
     # validate path
-    project_path = bmch.util.validate_path(project_path)
+    project_path, metadata_path = bmch.util.validate_path(project_path, metadata=True)
 
     # create conf file
-    metadata_path = os.path.join(project_path, 'metadata', '')
     files = ['emg', 'markers', 'force', 'participants', 'trials']
     bmch.fileio.create_conf_file(metadata_path, files)
     print('\tconfiguration files loaded')
@@ -38,7 +34,7 @@ def import_project(project_path=None):
 def import_files(project_path=None):
     # TODO: doc
     # validate path
-    project_path = bmch.util.validate_path(project_path)
+    project_path, metadata_path = bmch.util.validate_path(project_path, metadata=True)
 
     # load conf file
 

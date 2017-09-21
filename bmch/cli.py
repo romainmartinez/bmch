@@ -3,7 +3,6 @@
 """Command line interface for bmch."""
 
 import menu
-
 import bmch
 
 

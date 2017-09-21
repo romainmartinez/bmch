@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 # TODO: doc
+import pandas as pd  # create_conf_file
+import csv  # write_conf_header, create_conf_file
+import json  # create_conf_file
 
 
 def write_conf_header(case, path=None):
     # TODO: doc
-    import csv
     headers = {
         'emg': ['muscle_id', 'publication_name'],
         'markers': ['marker_id'],
@@ -18,9 +20,7 @@ def write_conf_header(case, path=None):
 
 
 def create_conf_file(path, files, ):
-    import pandas as pd
-    import json
-
+    # TODO: doc
     # read each csv files into dict
     d = {name: pd.read_csv('{}{}.csv'.format(path, name)) for name in files}
 
@@ -31,6 +31,3 @@ def create_conf_file(path, files, ):
     outpath = '{}config.json'.format(path)
     with open(outpath, 'w') as out:
         out.write(json.dumps(z, indent=4))
-
-
-# def load_conf_file(path):
