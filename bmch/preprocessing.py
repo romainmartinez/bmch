@@ -15,8 +15,7 @@ def create_project(project_path=None):
     print('\troot folders created')
 
     # create configuration files
-    files = ['emg', 'markers', 'force', 'participants', 'trials']
-    [bmch.fileio.write_conf_header(ifile, path=metadata_path) for ifile in files]
+    bmch.fileio.write_conf_header(metadata_path)
     print('\tconfiguration files created')
 
 
@@ -25,9 +24,8 @@ def import_project(project_path=None):
     # validate path
     project_path, metadata_path = bmch.util.validate_path(project_path, metadata=True)
 
-    # create conf file
-    files = ['emg', 'markers', 'force', 'participants', 'trials']
-    bmch.fileio.create_conf_file(metadata_path, files)
+    # create conf file (json)
+    bmch.fileio.create_conf_file(metadata_path)
     print('\tconfiguration files loaded')
 
 
