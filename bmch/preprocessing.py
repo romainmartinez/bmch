@@ -35,8 +35,15 @@ def import_files(project_path=None):
     project_path, metadata_path = bmch.util.validate_path(project_path, metadata=True)
 
     # load conf file
+    conf_file = bmch.fileio.load_conf_file(metadata_path)
+
+    # check c3d fields
+    import c3d
+    path2data = '/home/romain/Downloads/irsst/inputs/IRSST_DapO/trials/DapOF6H1_3.c3d'
+    reader = c3d.Reader(open(path2data, 'rb'))
+    reader.r
 
 
 # TODO: delete this
 if __name__ == '__main__':
-    import_project(project_path='/home/romain/Downloads/irsst')
+    import_files(project_path='/home/romain/Downloads/irsst')
