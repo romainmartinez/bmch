@@ -4,6 +4,8 @@
 import bmch  # create_project, import_project, import_file
 
 
+# TODO: replace list by tuple
+
 def create_project(project_path=None):
     # TODO: doc
     # validate path
@@ -37,7 +39,8 @@ def import_files(project_path=None):
     # load conf file
     conf_file = bmch.fileio.load_conf_file(metadata_path)
 
-    # check c3d fields
+    # get data folders
+    data_folders = bmch.util.get_data_folders(project_path, conf_file)
 
 
 # TODO: delete this
