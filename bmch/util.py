@@ -44,7 +44,7 @@ def get_data_folders(project_path, conf_file):
         if blacklist[b]:
             for i, ifolder in enumerate(folders):
                 value = []
-                key = os.path.join(project_path, iparticipant, ifolder, '')
+                key = os.path.join(project_path, 'inputs', iparticipant, ifolder, '')
                 if emg_folders[i]:
                     value.append('emg')
                 if markers_folders[i]:

@@ -45,24 +45,51 @@ def load_conf_file(metadata_path):
         return json.load(json_data)
 
 
-def read_c3d_file(data_folders):
+def read_c3d_file(data_folders, metadata=False, data=False):
     # todo: doc
     class C3d:
         def __init__(self, folders, metadata=False, data=False):
             self.folders = folders
-            self.flags = [metadata, data]
-            # todo: transform to list comprehension:
-            for ifolder in folders:
-                onlyfiles = [f for f in os.listdir(mypath) if os.path.isfile(join(mypath, f))]
+            self.flags = {'metadata': metadata, 'data': data}
+            print('import c3d files from:')
+            self.mainloop()
 
-        def main(self, metadata=False, data=False):
+        def mainloop(self):
+            for ifolder, kind in self.folders.items():
+                print('\t{}'.format(ifolder))
+                c3d_files = [f for f in os.listdir(ifolder) if f.endswith('.c3d')]
+                for ifile in c3d_files:
+                    print('\t\t{}'.format(ifile))
+                    file = ifolder + ifile
+                    self.open_file(file, kind)
+
+        def open_file(self, file, kind):
             output_metadata, output_data = None, None
-            with open(file_path, 'rb') as read:
-                handler = c3d.Reader(read)
-                if metadata:
-                    output_metadata = get_metadata(handler)
-                if data:
-                    output_data = get_data()
+            with open(file, 'rb') as reader:
+                handler = c3d.Reader(reader)
+                if self.flags['metadata']:
+                    output_metadata = self.get_metadata(handler)
+                if self.flags['data']:
+                    print('get_data')
             return output_metadata, output_data
 
-    c3d_files = C3d(data_folders)
+        @staticmethod
+        def get_metadata(handler):
+            output = {
+                'first_frame': handler.first_frame(),
+                'last_frame': handler.last_frame(),
+
+                'point_rate': handler.point_rate,
+                'analog_rate': handler.analog_rate,
+
+                'point_used': handler.point_used,
+                'analog_used': handler.analog_used,
+            }
+            if output['point_used'] is not 0:
+                output['point_labels'] = handler.groups['POINT'].params['LABELS'].string_array
+            if output['analog_used'] is not 0:
+                output['analog_labels'] = handler.groups['ANALOG'].params['LABELS'].string_array
+
+            return output
+
+    coucou = C3d(data_folders, metadata, data)
