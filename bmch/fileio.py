@@ -3,6 +3,8 @@
 import pandas as pd  # create_conf_file
 import csv  # write_conf_header, create_conf_file
 import json  # create_conf_file
+import c3d  # read_c3d_file
+import os  # read_c3d_file
 
 
 def write_conf_header(metadata_path):
@@ -40,4 +42,27 @@ def load_conf_file(metadata_path):
     # TODO: doc
     json_path = '{}config.json'.format(metadata_path)
     with open(json_path, 'r') as json_data:
-        return json.load(json_data)
+        return jsoarn.load(json_data)
+
+
+def read_c3d_file(data_folders):
+    # todo: doc
+    class C3d:
+        def __init__(self, folders, metadata=False, data=False):
+            self.folders = folders
+            self.flags = [metadata, data]
+            # todo: transform to list comprehension:
+            for ifolder in folders:
+                onlyfiles = [f for f in os.listdir(mypath) if os.path.isfile(join(mypath, f))]
+
+        def main(self, metadata=False, data=False):
+            output_metadata, output_data = None, None
+            with open(file_path, 'rb') as read:
+                handler = c3d.Reader(read)
+                if metadata:
+                    output_metadata = get_metadata(handler)
+                if data:
+                    output_data = get_data()
+            return output_metadata, output_data
+
+    c3d_files = C3d(data_folders)

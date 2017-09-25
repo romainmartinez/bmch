@@ -45,5 +45,4 @@ def get_data():
 
 if __name__ == '__main__':
     filepath = '/home/romain/Downloads/irsst/inputs/IRSST_DapO/trials/DapOF6H1_1.c3d'
-    #meta = main(filepath, metadata=True)
-    assign_fields()
+    meta = main(filepath, metadata=True)

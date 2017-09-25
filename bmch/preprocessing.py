@@ -41,6 +41,7 @@ def import_files(project_path=None):
 
     # get data folders
     data_folders = bmch.util.get_data_folders(project_path, conf_file)
+    pass
 
 
 # TODO: delete this
