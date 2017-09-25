@@ -9,9 +9,9 @@ def write_conf_header(metadata_path):
     # TODO: doc
     files = ['emg', 'markers', 'force', 'participants', 'trials']
     headers = {
-        'emg': ['muscle_id', 'publication_name'],
-        'markers': ['marker_id'],
-        'force': ['analog_id'],
+        'emg': ['labels', 'publication_name'],
+        'markers': ['labels'],
+        'force': ['labels'],
         'participants': ['pseudo', 'process', 'laterality', 'group', 'mass', 'height', 'date'],
         'trials': ['folder', 'emg', 'markers', 'force']
     }
