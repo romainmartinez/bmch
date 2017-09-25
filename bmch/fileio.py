@@ -42,7 +42,7 @@ def load_conf_file(metadata_path):
     # TODO: doc
     json_path = '{}config.json'.format(metadata_path)
     with open(json_path, 'r') as json_data:
-        return jsoarn.load(json_data)
+        return json.load(json_data)
 
 
 def read_c3d_file(data_folders):

@@ -32,21 +32,24 @@ def create_root_folders(project_path):
 
 def get_data_folders(project_path, conf_file):
     participants = list(conf_file['participants']['pseudo'].values())
+    blacklist = list(conf_file['participants']['process'].values())
     folders = list(conf_file['trials']['folder'].values())
+
     output = {}
     emg_folders = list(conf_file['trials']['emg'].values())
     markers_folders = list(conf_file['trials']['markers'].values())
     force_folders = list(conf_file['trials']['force'].values())
 
-    for iparticipant in participants:
-        for i, ifolder in enumerate(folders):
-            value = []
-            key = os.path.join(project_path, iparticipant, ifolder, '')
-            if emg_folders[i]:
-                value.append('emg')
-            if markers_folders[i]:
-                value.append('markers')
-            if force_folders[i]:
-                value.append('force')
-            output[key] = value
+    for b, iparticipant in enumerate(participants):
+        if blacklist[b]:
+            for i, ifolder in enumerate(folders):
+                value = []
+                key = os.path.join(project_path, iparticipant, ifolder, '')
+                if emg_folders[i]:
+                    value.append('emg')
+                if markers_folders[i]:
+                    value.append('markers')
+                if force_folders[i]:
+                    value.append('force')
+                output[key] = value
     return output
