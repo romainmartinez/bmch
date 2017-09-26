@@ -51,6 +51,7 @@ def read_c3d_file(data_folders, metadata=False, data=False):
         def __init__(self, folders, metadata=False, data=False):
             self.folders = folders
             self.flags = {'metadata': metadata, 'data': data}
+            self.current = []
             print('import c3d files from:')
             self.mainloop()
 
@@ -64,14 +65,12 @@ def read_c3d_file(data_folders, metadata=False, data=False):
                     self.open_file(file, kind)
 
         def open_file(self, file, kind):
-            output_metadata, output_data = None, None
             with open(file, 'rb') as reader:
                 handler = c3d.Reader(reader)
                 if self.flags['metadata']:
-                    output_metadata = self.get_metadata(handler)
+                    self.current.metadata = self.get_metadata(handler)
                 if self.flags['data']:
-                    print('get_data')
-            return output_metadata, output_data
+                    self.current.data = self.get_data(handler, kind)
 
         @staticmethod
         def get_metadata(handler):
@@ -89,7 +88,11 @@ def read_c3d_file(data_folders, metadata=False, data=False):
                 output['point_labels'] = handler.groups['POINT'].params['LABELS'].string_array
             if output['analog_used'] is not 0:
                 output['analog_labels'] = handler.groups['ANALOG'].params['LABELS'].string_array
-
             return output
+
+        def get_data(self, handler, kind):
+            for frame_no, point, analog in handler.read_frames():
+                print()
+            return 1
 
     coucou = C3d(data_folders, metadata, data)
