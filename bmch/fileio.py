@@ -5,6 +5,7 @@ import csv  # write_conf_header, create_conf_file
 import json  # create_conf_file
 import c3d  # read_c3d_file
 import os  # read_c3d_file
+import numpy as np  # get_data
 
 
 def write_conf_header(metadata_path):
@@ -51,7 +52,7 @@ def read_c3d_file(data_folders, metadata=False, data=False):
         def __init__(self, folders, metadata=False, data=False):
             self.folders = folders
             self.flags = {'metadata': metadata, 'data': data}
-            self.current = []
+            self.current = {}
             print('import c3d files from:')
             self.mainloop()
 
@@ -68,9 +69,9 @@ def read_c3d_file(data_folders, metadata=False, data=False):
             with open(file, 'rb') as reader:
                 handler = c3d.Reader(reader)
                 if self.flags['metadata']:
-                    self.current.metadata = self.get_metadata(handler)
+                    self.current['metadata'] = self.get_metadata(handler)
                 if self.flags['data']:
-                    self.current.data = self.get_data(handler, kind)
+                    self.current['data'] = self.get_data(handler, kind)
 
         @staticmethod
         def get_metadata(handler):
@@ -91,8 +92,13 @@ def read_c3d_file(data_folders, metadata=False, data=False):
             return output
 
         def get_data(self, handler, kind):
+            points = []
+            analogs = []
             for frame_no, point, analog in handler.read_frames():
-                print()
+                if point.any():
+                    points.append(point)
+                if analog.any():
+                    analogs.append(analog)
             return 1
 
     coucou = C3d(data_folders, metadata, data)
