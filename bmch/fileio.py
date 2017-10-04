@@ -48,10 +48,10 @@ def load_conf_file(metadata_path):
 
 def read_c3d_file(data_folders, metadata=False, data=False):
     # todo: doc
-    class C3d:
-        def __init__(self, folders, metadata=False, data=False):
+    class C3D:
+        def __init__(self, folders, meta=False, dat=False):
             self.folders = folders
-            self.flags = {'metadata': metadata, 'data': data}
+            self.flags = {'metadata': meta, 'data': dat}
             self.current = {}
             print('import c3d files from:')
             self.mainloop()
@@ -91,14 +91,18 @@ def read_c3d_file(data_folders, metadata=False, data=False):
                 output['analog_labels'] = handler.groups['ANALOG'].params['LABELS'].string_array
             return output
 
-        def get_data(self, handler, kind):
+        @staticmethod
+        def get_data(handler, kind):
             points = []
             analogs = []
+            kind = str(kind)
             for frame_no, point, analog in handler.read_frames():
-                if point.any():
+                if 'marker' in kind:
                     points.append(point)
-                if analog.any():
+                if 'emg' in kind:
                     analogs.append(analog)
-            return 1
+            points = np.vstack(points) if points else []
+            analogs = np.vstack(analogs) if analogs else []
+            return {'points': points, 'analogs': analogs}
 
-    coucou = C3d(data_folders, metadata, data)
+    C3D(data_folders, meta=metadata, dat=data)
