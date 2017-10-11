@@ -103,3 +103,5 @@ class C3D:
         points = np.vstack(points) if points else []
         analogs = np.vstack(analogs) if analogs else []
         return {'points': points, 'analogs': analogs}
+
+

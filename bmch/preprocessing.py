@@ -6,7 +6,7 @@ import bmch  # create_project, import_project, import_file
 
 # TODO: replace list by tuple
 
-def create_project(project_path=None):
+def create_project(project_path):
     # TODO: doc
     # validate path
     project_path, metadata_path = bmch.util.validate_path(project_path, isempty=True, metadata=True)
@@ -21,7 +21,7 @@ def create_project(project_path=None):
     print('\tconfiguration files created')
 
 
-def import_project(project_path=None):
+def import_project(project_path):
     # TODO: doc
     # validate path
     project_path, metadata_path = bmch.util.validate_path(project_path, metadata=True)
@@ -31,7 +31,7 @@ def import_project(project_path=None):
     print('\tconfiguration files loaded')
 
 
-def import_files(project_path=None):
+def import_files(project_path):
     # TODO: doc
     # validate path
     project_path, metadata_path = bmch.util.validate_path(project_path, metadata=True)

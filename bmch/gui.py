@@ -6,6 +6,7 @@ import bmch
 
 
 class Assignc3d:
+
     def __init__(self, master, targets, fields):
         self.targets = targets
         self.fields = fields
