@@ -43,7 +43,7 @@ def import_files(project_path=None):
     data_folders = bmch.util.get_data_folders(project_path, conf_file)
 
     # read c3d files
-    bmch.fileio.read_c3d_file(data_folders, metadata=True, data=True)
+    bmch.fileio.C3D(data_folders, metadata=True, data=True)
 
 
 # TODO: delete this

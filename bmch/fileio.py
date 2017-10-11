@@ -46,63 +46,60 @@ def load_conf_file(metadata_path):
         return json.load(json_data)
 
 
-def read_c3d_file(data_folders, metadata=False, data=False):
+class C3D:
     # todo: doc
-    class C3D:
-        def __init__(self, folders, meta=False, dat=False):
-            self.folders = folders
-            self.flags = {'metadata': meta, 'data': dat}
-            self.current = {}
-            print('import c3d files from:')
-            self.mainloop()
+    def __init__(self, data_folders, metadata=False, data=False):
+        self.folders = data_folders
+        self.flags = {'metadata': metadata, 'data': data}
+        self.current = {}
+        print('import c3d files from:')
+        self.mainloop()
 
-        def mainloop(self):
-            for ifolder, kind in self.folders.items():
-                print('\t{}'.format(ifolder))
-                c3d_files = [f for f in os.listdir(ifolder) if f.endswith('.c3d')]
-                for ifile in c3d_files:
-                    print('\t\t{}'.format(ifile))
-                    file = ifolder + ifile
-                    self.open_file(file, kind)
+    def mainloop(self):
+        for ifolder, kind in self.folders.items():
+            print('\t{}'.format(ifolder))
+            c3d_files = [f for f in os.listdir(ifolder) if f.endswith('.c3d')]
+            for ifile in c3d_files:
+                print('\t\t{}'.format(ifile))
+                file = ifolder + ifile
+                metadata, data = self.open_file(file, kind)
+                # assign c3d fields
 
-        def open_file(self, file, kind):
-            with open(file, 'rb') as reader:
-                handler = c3d.Reader(reader)
-                if self.flags['metadata']:
-                    self.current['metadata'] = self.get_metadata(handler)
-                if self.flags['data']:
-                    self.current['data'] = self.get_data(handler, kind)
+    def open_file(self, file, kind):
+        with open(file, 'rb') as reader:
+            handler = c3d.Reader(reader)
+            meta = self.get_metadata(handler) if self.flags['metadata'] else []
+            dat = self.get_data(handler, kind) if self.flags['data'] else []
+            return meta, dat
 
-        @staticmethod
-        def get_metadata(handler):
-            output = {
-                'first_frame': handler.first_frame(),
-                'last_frame': handler.last_frame(),
+    @staticmethod
+    def get_metadata(handler):
+        output = {
+            'first_frame': handler.first_frame(),
+            'last_frame': handler.last_frame(),
 
-                'point_rate': handler.point_rate,
-                'analog_rate': handler.analog_rate,
+            'point_rate': handler.point_rate,
+            'analog_rate': handler.analog_rate,
 
-                'point_used': handler.point_used,
-                'analog_used': handler.analog_used,
-            }
-            if output['point_used'] is not 0:
-                output['point_labels'] = handler.groups['POINT'].params['LABELS'].string_array
-            if output['analog_used'] is not 0:
-                output['analog_labels'] = handler.groups['ANALOG'].params['LABELS'].string_array
-            return output
+            'point_used': handler.point_used,
+            'analog_used': handler.analog_used,
+        }
+        if output['point_used'] is not 0:
+            output['point_labels'] = handler.groups['POINT'].params['LABELS'].string_array
+        if output['analog_used'] is not 0:
+            output['analog_labels'] = handler.groups['ANALOG'].params['LABELS'].string_array
+        return output
 
-        @staticmethod
-        def get_data(handler, kind):
-            points = []
-            analogs = []
-            kind = str(kind)
-            for frame_no, point, analog in handler.read_frames():
-                if 'marker' in kind:
-                    points.append(point)
-                if 'emg' in kind:
-                    analogs.append(analog)
-            points = np.vstack(points) if points else []
-            analogs = np.vstack(analogs) if analogs else []
-            return {'points': points, 'analogs': analogs}
-
-    C3D(data_folders, meta=metadata, dat=data)
+    @staticmethod
+    def get_data(handler, kind):
+        points = []
+        analogs = []
+        kind = str(kind)
+        for frame_no, point, analog in handler.read_frames():
+            if 'marker' in kind:
+                points.append(point)
+            if 'emg' in kind:
+                analogs.append(analog)
+        points = np.vstack(points) if points else []
+        analogs = np.vstack(analogs) if analogs else []
+        return {'points': points, 'analogs': analogs}
