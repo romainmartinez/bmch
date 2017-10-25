@@ -51,9 +51,9 @@ class C3D:
     def __init__(self, data_folders, metadata=False, data=False):
         self.folders = data_folders
         self.flags = {'metadata': metadata, 'data': data}
-        self.current = {}
         print('import c3d files from:')
         self.mainloop()
+        #self.metadata, self.data = self.mainloop()
 
     def mainloop(self):
         for ifolder, kind in self.folders.items():
@@ -63,7 +63,7 @@ class C3D:
                 print('\t\t{}'.format(ifile))
                 file = ifolder + ifile
                 metadata, data = self.open_file(file, kind)
-                # assign c3d fields
+        return
 
     def open_file(self, file, kind):
         with open(file, 'rb') as reader:
@@ -103,5 +103,3 @@ class C3D:
         points = np.vstack(points) if points else []
         analogs = np.vstack(analogs) if analogs else []
         return {'points': points, 'analogs': analogs}
-
-
