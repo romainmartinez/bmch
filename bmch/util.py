@@ -3,7 +3,19 @@ import os  # validate_path
 
 
 def validate_path(path, isempty=False, metadata=False):
-    # TODO: doc
+    """Check if the path exist. If a path is not provided, ask the user to type one.
+
+    :param path: path to validata
+    :type path: str
+    :param isempty: check if the folder is empty if True
+    :type isempty: bool
+    :param metadata: return also the metadata path if True
+    :return: path validated and metadata path if `metadata=True`
+    Example::
+
+    project_path, metadata_path = validate_path(project_path='/home/romain/Downloads/irsst',
+                                                isempty=True, metadata=True)
+    """
     # ask project path it is not given
     if path is None:
         path = input('Enter the path of the project: ')
@@ -26,11 +38,24 @@ def validate_path(path, isempty=False, metadata=False):
 
 
 def create_root_folders(project_path):
+    """Create the root folders of the project (*inputs, ouputs and metadata*)
+
+    :param project_path: path to the project
+    :type project_path: str
+    """
     folders = ['inputs', 'outputs', 'metadata']
     [os.mkdir(project_path + ifolder) for ifolder in folders]
 
 
 def get_data_folders(project_path, conf_file):
+    """Get data folders and associated type (*markers and/or emg and/or emg*).
+
+    :param project_path: path to the project
+    :type project_path: str
+    :param conf_file: json conf file load as dict
+    :type conf_file: dict
+    :return: output: dict containing the data folder(s) as key and type (*markers and/or emg and/or emg*) as value
+    """
     participants = list(conf_file['participants']['pseudo'].values())
     blacklist = list(conf_file['participants']['process'].values())
     folders = list(conf_file['trials']['folder'].values())

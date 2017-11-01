@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """Preprocessing submodule."""
-# TODO: complete doc
 import bmch  # create_project, import_project, import_file
 
 
-# TODO: replace list by tuple
-
 def create_project(project_path=None):
-    # TODO: doc
+    """Create root folders (*inputs, outputs and metadata*) and csv configuration files. You must fill these files.
+
+    :param project_path: path to the project
+    :type: str
+    """
     # validate path
     project_path, metadata_path = bmch.util.validate_path(project_path, isempty=True, metadata=True)
     print('\tdirectory located')
@@ -22,7 +23,10 @@ def create_project(project_path=None):
 
 
 def import_project(project_path=None):
-    # TODO: doc
+    """Import csv configurations files created by `create_project` and create a json configuration file.
+
+    :param project_path: path to the project
+    """
     # validate path
     project_path, metadata_path = bmch.util.validate_path(project_path, metadata=True)
 
@@ -47,7 +51,6 @@ def import_files(project_path=None):
     c3d.read_data()
 
 
-# TODO: delete this
 if __name__ == '__main__':
     import_files(project_path='/home/romain/Downloads/irsst')
     pass
