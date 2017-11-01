@@ -6,7 +6,7 @@ import bmch  # create_project, import_project, import_file
 
 # TODO: replace list by tuple
 
-def create_project(project_path):
+def create_project(project_path=None):
     # TODO: doc
     # validate path
     project_path, metadata_path = bmch.util.validate_path(project_path, isempty=True, metadata=True)
@@ -21,7 +21,7 @@ def create_project(project_path):
     print('\tconfiguration files created')
 
 
-def import_project(project_path):
+def import_project(project_path=None):
     # TODO: doc
     # validate path
     project_path, metadata_path = bmch.util.validate_path(project_path, metadata=True)
@@ -31,7 +31,7 @@ def import_project(project_path):
     print('\tconfiguration files loaded')
 
 
-def import_files(project_path):
+def import_files(project_path=None):
     # TODO: doc
     # validate path
     project_path, metadata_path = bmch.util.validate_path(project_path, metadata=True)
@@ -43,7 +43,8 @@ def import_files(project_path):
     data_folders = bmch.util.get_data_folders(project_path, conf_file)
 
     # read c3d files
-    bmch.fileio.C3D(data_folders, metadata=True, data=True)
+    c3d = bmch.fileio.C3D(data_folders)
+    c3d.read_data()
 
 
 # TODO: delete this
