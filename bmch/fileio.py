@@ -80,16 +80,17 @@ class C3D:
         c3d.read_data()
     """
 
-    def __init__(self, data_folders):
+    def __init__(self, data_folders, conf_file):
         """Constructor for C3D"""
         print('import c3d files from:')
         self.folders = data_folders
+        self.conf_file = conf_file
 
     def read_data(self):
         # todo complete return docstring
         """Read data from `self.folders`
 
-        :return a: aaaa
+        :return
         """
         for ifolder, kind in self.folders.items():
             print('\t{}'.format(ifolder))
@@ -112,9 +113,32 @@ class C3D:
         reader.Update()
         acq = reader.GetOutput()
         metadata = {'first_frame': acq.GetFirstFrame(), 'last_frame': acq.GetLastFrame()}
+
+        data = {}
+        for i in ['markers', 'force', 'emg']:
+            if i in kind:
+                if i is 'markers':
+                    metadata.update({'point_rate': acq.GetPointFrequency(), 'point_used': acq.GetPointNumber()})
+                    data_temp = self._iterate(acq=acq, kind='markers')
+                else:
+                    metadata.update({'analog_rate': acq.GetAnalogFrequency(), 'analog_used': acq.GetAnalogNumber()})
+                    data_temp = self._iterate(acq=acq, kind='analogs')
+                data[i] = self._attribute_channels(data_temp, kind=i)
+            else:
+                data[i] = None
+
+
+
+
+
+
+
+
+
         if 'markers' in kind:
             metadata.update({'point_rate': acq.GetPointFrequency(), 'point_used': acq.GetPointNumber()})
-            markers = self._iterate(acq=acq, kind='analogs')
+            markers = self._iterate(acq=acq, kind='markers')
+            self._attribute_channels()
         else:
             markers = None
         if 'force' in kind or 'emg' in kind:
@@ -123,6 +147,25 @@ class C3D:
         else:
             analogs = None
         return metadata, markers, analogs
+
+    def _attribute_channels(self, data_temp, kind):
+        actual_fieds = list(data_temp.keys())
+        target_fields = list(self.conf_file[kind]['labels'].values())
+        output = {}
+
+        # TODELETE:
+        actual_fieds[-1] = 'ssp'
+
+        for itarget in target_fields:
+            compare = actual_fieds == itarget
+            if any(compare):
+                print('victory')
+                data_temp[actual_fieds[compare]]
+            else:
+                print('GUI')
+
+        return 1
+
 
     @staticmethod
     def _iterate(acq, kind='markers'):

@@ -47,10 +47,10 @@ def import_files(project_path=None):
     data_folders = bmch.util.get_data_folders(project_path, conf_file)
 
     # read c3d files
-    c3d = bmch.fileio.C3D(data_folders)
+    c3d = bmch.fileio.C3D(data_folders, conf_file)
     c3d.read_data()
+    print('done.')
 
 
 if __name__ == '__main__':
     import_files(project_path='/home/romain/Downloads/irsst')
-    pass
