@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os  # validate_path
+import tkinter as tk  # GuiC3D
 
 
 def validate_path(path, isempty=False, metadata=False):
@@ -78,3 +79,79 @@ def get_data_folders(project_path, conf_file):
                     value.append('force')
                 output[key] = value
     return output
+
+
+class GuiC3D:
+    def __init__(self, targets, fields):
+        self.targets = targets
+        self.fields = fields
+
+        self.idx = 0
+        self.mwheel_count = 0
+        self.assign = []
+        self.FONTSIZE = 20
+
+        self.init_master()
+
+        self.keyboard()
+        self.target()
+        self.lists()
+        self.buttons()
+
+        self.run()
+
+    def init_master(self):
+        self.root = tk.Tk()
+        self.root.title('GUI - channels assignment')
+
+    def keyboard(self):
+        self.root.bind('1', self.action_add)
+        self.root.bind('2', self.action_nan)
+
+    def target(self):
+        self.label = tk.Label(self.root, text=self.targets[self.idx], font=(None, self.FONTSIZE))
+        self.label.grid(row=0)
+
+    def lists(self):
+        self.list_fields = tk.Listbox(self.root, font=(None, self.FONTSIZE))
+        self.list_fields.focus_set()
+        self.list_fields.insert(0, *self.fields)
+        self.list_fields.grid(row=1, column=0, rowspan=7, padx=10)
+        self.list_fields.config(height=0)
+
+        self.list_assigned = tk.Listbox(self.root, font=(None, self.FONTSIZE))
+        self.list_assigned.grid(row=1, column=2, rowspan=7, padx=10)
+        self.list_fields.config(height=0)
+
+    def buttons(self):
+        self.button_add = tk.Button(self.root, text='Add [1]', font=(None, self.FONTSIZE),
+                                    command=self.action_add)
+        self.button_add.grid(row=1, column=1, sticky='W')
+
+        self.button_nan = tk.Button(self.root, text='NaN [2]', font=(None, self.FONTSIZE),
+                                    command=self.action_nan)
+        self.button_nan.grid(row=2, column=1, sticky='W')
+
+    def action_add(self, event=None):
+        selection = self.list_fields.curselection()[0]
+        self.list_fields.delete(selection)
+        self.list_assigned.insert('end', f'{self.idx}_{self.fields[selection]}')
+        self.prepare_next(selection)
+
+    def action_nan(self, event=None):
+        selection = self.list_fields.curselection()[0]
+        self.list_assigned.insert('end', f'{self.idx}_nan')
+        self.prepare_next(selection)
+
+    def prepare_next(self, selection):
+        self.list_fields.select_set(selection)
+        self.idx += 1
+        if self.idx >= len(self.targets):
+            self.root.destroy()
+        else:
+            self.label.config(text=self.targets[self.idx])
+            self.assign.append(self.fields[selection])
+            del (self.fields[selection])
+
+    def run(self):
+        self.root.mainloop()
